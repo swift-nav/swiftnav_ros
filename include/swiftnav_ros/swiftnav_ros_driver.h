@@ -42,7 +42,7 @@
 #ifndef _swiftnav_ros_driver_hpp
 #define _swiftnav_ros_driver_hpp
 
-#include "swiftnav_ros/swiftnav_ros_driver.h"
+#include "swiftnav_ros/sbp_device.h"
 
 #include <libsbp/sbp.h>
 
