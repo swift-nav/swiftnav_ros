@@ -175,7 +175,7 @@ int piksi_open( const char *port, int baud )
 	}
 	options.c_cflag &= ~HUPCL;
 	options.c_lflag &= ~ICANON; 
-        options.c_cflag = CREAD;   // enable the receiver
+        options.c_cflag |= CREAD;   // enable the receiver
 	options.c_cc[VTIME] = 2;
 	options.c_cc[VMIN] = 0;
 	if( tcsetattr( fd, TCSANOW, &options ) < 0 )
