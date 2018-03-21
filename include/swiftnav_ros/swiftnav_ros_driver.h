@@ -52,6 +52,7 @@
 #include <diagnostic_updater/diagnostic_updater.h>
 #include <diagnostic_updater/publisher.h>
 #include <diagnostic_updater/update_functions.h>
+#include <sensor_msgs/TimeReference.h>
 #include <nav_msgs/Odometry.h>
 
 #include <boost/thread.hpp>
@@ -136,8 +137,10 @@ namespace swiftnav_ros
 		ros::Publisher llh_pub;
 		ros::Publisher rtk_pub;
 		ros::Publisher time_pub;
+		boost::shared_ptr<diagnostic_updater::DiagnosedPublisher<sensor_msgs::TimeReference> > diagnosed_time_pub;
 
         // Diagnostic Data
+        double expected_frequency, frequency_tolerance, timestamp_min_acceptable, timestamp_max_acceptable;
 		unsigned int io_failure_count;
 		unsigned int last_io_failure_count;
 		unsigned int open_failure_count;

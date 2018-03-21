@@ -6,7 +6,6 @@
 
 #include <sensor_msgs/NavSatFix.h>
 #include <sensor_msgs/NavSatStatus.h>
-#include <sensor_msgs/TimeReference.h>
 #include <ros/time.h>
 #include <tf/tf.h>
 
@@ -117,6 +116,17 @@ namespace swiftnav_ros
 		rtk_pub = nh.advertise<nav_msgs::Odometry>( "gps/rtkfix", 1 );
 		time_pub = nh.advertise<sensor_msgs::TimeReference>( "gps/time", 1 );
 
+		ros::param::param<double>("~expected_frequency", expected_frequency, 10);
+		ros::param::param<double>("~frequency_tolerance", frequency_tolerance, 0.2);
+		ros::param::param<double>("~timestamp_min_acceptable", timestamp_min_acceptable, -1);
+		ros::param::param<double>("~timestamp_max_acceptable", timestamp_max_acceptable, -1);
+
+		diagnosed_time_pub = boost::shared_ptr<diagnostic_updater::DiagnosedPublisher<sensor_msgs::TimeReference> >(
+		      new diagnostic_updater::DiagnosedPublisher<sensor_msgs::TimeReference>(
+		        time_pub, heartbeat_diag,
+		        diagnostic_updater::FrequencyStatusParam(&expected_frequency, &expected_frequency, frequency_tolerance),
+		        diagnostic_updater::TimeStampStatusParam(timestamp_min_acceptable, timestamp_max_acceptable)));
+
 		return true;
 	}
 
@@ -184,7 +194,7 @@ namespace swiftnav_ros
       time_msg->time_ref.sec = time.tow;
       time_msg->source = "gps";
 
-      driver->time_pub.publish( time_msg );
+      driver->diagnosed_time_pub->publish( time_msg );
     }
         
 
