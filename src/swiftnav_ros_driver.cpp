@@ -119,7 +119,7 @@ namespace swiftnav_ros
 		ros::param::param<double>("~expected_frequency", expected_frequency, 10);
 		ros::param::param<double>("~frequency_tolerance", frequency_tolerance, 0.2);
 		ros::param::param<double>("~timestamp_min_acceptable", timestamp_min_acceptable, -1);
-		ros::param::param<double>("~timestamp_max_acceptable", timestamp_max_acceptable, -1);
+		ros::param::param<double>("~timestamp_max_acceptable", timestamp_max_acceptable, 5);
 
 		diagnosed_time_pub = boost::shared_ptr<diagnostic_updater::DiagnosedPublisher<sensor_msgs::TimeReference> >(
 		      new diagnostic_updater::DiagnosedPublisher<sensor_msgs::TimeReference>(
