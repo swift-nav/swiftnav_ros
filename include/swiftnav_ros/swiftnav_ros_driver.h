@@ -96,6 +96,7 @@ namespace swiftnav_ros
 		ros::NodeHandle nh_priv;
 		std::string port;
 		std::string frame_id;
+                std::string child_frame_id;
 		int8_t piksid;
 		boost::mutex cmd_lock;
 
