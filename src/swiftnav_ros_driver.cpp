@@ -19,6 +19,7 @@ namespace swiftnav_ros
 		nh_priv( _nh_priv ),
 		port( _port ),
 		frame_id( "gps" ),
+    child_frame_id(""),
 		piksid( -1 ),
 
         heartbeat_diag(nh, nh_priv, "ppiksi_time_diag"),
@@ -75,6 +76,7 @@ namespace swiftnav_ros
 		rtk_diag.add( rtk_pub_freq );
 
 		nh_priv.param( "frame_id", frame_id, (std::string)"gps" );
+    nh_priv.param( "child_frame_id", child_frame_id, (std::string)"piksi");
 	}
 
 	PIKSI::~PIKSI( )
@@ -263,6 +265,7 @@ namespace swiftnav_ros
         rtk_odom_msg->header.frame_id = driver->frame_id;
             // For best accuracy, header.stamp should maybe get tow converted to ros::Time
         rtk_odom_msg->header.stamp = ros::Time::now( );
+        rtk_odom_msg->child_frame_id = driver->child_frame_id;
 
             // convert to meters from mm, and NED to ENU
         rtk_odom_msg->pose.pose.position.x = sbp_ned.e/1000.0;
